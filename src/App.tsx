@@ -209,7 +209,8 @@ export default function App() {
         <p className="eyebrow">OpenRouter · ~typesafe/jev-latest</p>
         <h1 className="brand">Jev 2048</h1>
         <p className="lede">
-          每一步滑动都由结构化决策驱动。Jev 读取棋盘并选择下一步方向，直到通关——或格子被填满。
+          每一步滑动都由结构化决策驱动。也可在棋盘上滑动或用方向键手动玩；Jev
+          会读取棋盘并选择下一步，直到通关——或格子被填满。
         </p>
       </header>
 
@@ -234,7 +235,12 @@ export default function App() {
             </div>
           </div>
 
-          <BoardView board={game.board} highlight={lastMove} />
+          <BoardView
+            board={game.board}
+            highlight={lastMove}
+            swipeEnabled={!autoplay && !busy}
+            onSwipe={playMove}
+          />
 
           <Controls
             autoplay={autoplay}
