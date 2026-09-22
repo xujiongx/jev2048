@@ -28,9 +28,23 @@ export async function askJev(payload: DecideRequest): Promise<DecideResponse> {
     body: JSON.stringify(payload),
   });
 
-  const data = (await res.json()) as DecideResponse & { error?: string };
+  const text = await res.text();
+  let data: (DecideResponse & { error?: string }) | null = null;
+  try {
+    data = text ? (JSON.parse(text) as DecideResponse & { error?: string }) : null;
+  } catch {
+    throw new Error(
+      res.status === 404
+        ? "接口 /api/decide 不存在。若已部署到 Vercel，请确认已推送 api/decide.js，并在项目环境变量中配置 OPENROUTER_API_KEY。"
+        : `服务器返回了非 JSON 响应（${res.status}）`,
+    );
+  }
+
   if (!res.ok) {
-    throw new Error(data.error ?? `请求失败（${res.status}）`);
+    throw new Error(data?.error ?? `请求失败（${res.status}）`);
+  }
+  if (!data?.move) {
+    throw new Error("决策接口返回数据不完整");
   }
   return data;
 }
