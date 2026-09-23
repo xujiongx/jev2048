@@ -307,28 +307,58 @@ function c4AiMove(state: C4State): string | null {
   return bestMove;
 }
 
-/** Opponent: tic-tac-toe heuristics; connect4 uses shallow minimax. */
-export function opponentMove(state: LinesState): string | null {
-  if (state.mode === "connect4") {
-    return c4AiMove(state);
-  }
+function minimaxTtt(
+  state: TttState,
+  maximizing: boolean,
+  me: "X" | "O",
+): number {
+  if (state.status === "won") return state.winner === me ? 10 : -10;
+  if (state.status === "draw") return 0;
 
-  const moves = validMoves(state);
+  const moves = tttValidMoves(state.board);
+  if (maximizing) {
+    let best = -Infinity;
+    for (const m of moves) {
+      best = Math.max(best, minimaxTtt(applyTttMove(state, m), false, me));
+    }
+    return best;
+  }
+  let best = Infinity;
+  for (const m of moves) {
+    best = Math.min(best, minimaxTtt(applyTttMove(state, m), true, me));
+  }
+  return best;
+}
+
+function tttAiMove(state: TttState): string | null {
+  const moves = tttValidMoves(state.board);
   if (moves.length === 0) return null;
 
-  for (const m of moves) {
-    const next = applyMove(state, m);
-    if (next.status === "won" && next.winner === state.current) return m;
-  }
+  const me = state.current;
+  // Prefer center / corners on ties for natural play.
+  const ordered = [...moves].sort((a, b) => {
+    const rank = (m: string) =>
+      m === "4" ? 0 : ["0", "2", "6", "8"].includes(m) ? 1 : 2;
+    return rank(a) - rank(b);
+  });
 
-  const foe: "X" | "O" = state.current === "X" ? "O" : "X";
-  for (const m of moves) {
-    const asFoe = applyTttMove({ ...state, current: foe }, m);
-    if (asFoe.status === "won" && asFoe.winner === foe) return m;
+  let bestMove = ordered[0]!;
+  let bestScore = -Infinity;
+  for (const m of ordered) {
+    const next = applyTttMove(state, m);
+    const score = minimaxTtt(next, false, me);
+    if (score > bestScore) {
+      bestScore = score;
+      bestMove = m;
+    }
   }
+  return bestMove;
+}
 
-  if (moves.includes("4")) return "4";
-  return moves[Math.floor(Math.random() * moves.length)]!;
+/** Opponent: perfect tic-tac-toe; connect4 uses shallow minimax. */
+export function opponentMove(state: LinesState): string | null {
+  if (state.mode === "connect4") return c4AiMove(state);
+  return tttAiMove(state);
 }
 
 export function boardForApi(state: LinesState): unknown {
