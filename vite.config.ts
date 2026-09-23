@@ -65,9 +65,23 @@ export default defineConfig(({ mode }) => {
   const apiKey = env.OPENROUTER_API_KEY ?? "";
 
   return {
-    plugins: [react(), jevApiPlugin(apiKey)],
+    plugins: [
+      react(),
+      jevApiPlugin(apiKey),
+      {
+        // Avoid CORS-tainted stylesheets being dropped on some mobile WebViews.
+        name: "strip-stylesheet-crossorigin",
+        transformIndexHtml(html) {
+          return html.replace(
+            /<link rel="stylesheet" crossorigin\s+/g,
+            '<link rel="stylesheet" ',
+          );
+        },
+      },
+    ],
     server: {
       port: 5173,
+      host: true,
     },
   };
 });

@@ -10,9 +10,9 @@
   --muted: #8fb8a6;
   --empty: #24483d;
   --radius: 18px;
-  --font: "Outfit", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
-    "Microsoft YaHei", system-ui, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --font: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei",
+    "Outfit", system-ui, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
   --page-max: 1120px;
 }
 
