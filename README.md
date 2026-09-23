@@ -10,7 +10,7 @@
 | `/2048` | 自动玩 2048（四向滑动 choice） |
 | `/blackjack` | 21 点决策助手（要牌 / 停牌） |
 
-21 点牌面 SVG 使用 [Wikimedia Commons · Byron Knoll](https://commons.wikimedia.org/wiki/Category:Playing_cards_set_by_Byron_Knoll) 公开资源。
+21 点牌面使用 [CardMeister](https://cardmeister.github.io/)（Unlicense，基于 Adrian Kennard 设计），`public/vendor/cardmeister.full.js` 本地托管，手机端不依赖外链。
 
 ## 技术栈
 

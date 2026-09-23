@@ -578,15 +578,15 @@ export default function Blackjack() {
           {error && <p className="error">{error}</p>}
 
           <p className="bj-credit">
-            牌面 SVG 来自{" "}
+            牌面使用{" "}
             <a
-              href="https://commons.wikimedia.org/wiki/Category:Playing_cards_set_by_Byron_Knoll"
+              href="https://cardmeister.github.io/"
               target="_blank"
               rel="noreferrer"
             >
-              Wikimedia Commons · Byron Knoll
+              CardMeister
             </a>
-            （52 张，无大小王）
+            （Unlicense · 基于 Adrian Kennard 设计），本地托管 full 版宫廷牌面。
           </p>
         </section>
 

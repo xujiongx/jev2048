@@ -167,6 +167,14 @@ a {
   justify-content: center;
 }
 
+.page-fallback {
+  min-height: 40vh;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-weight: 600;
+}
+
 .page {
   position: relative;
   isolation: isolate;
