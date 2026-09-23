@@ -7,6 +7,8 @@ type PlayingCardElementProps = DetailedHTMLProps<
   cid?: string;
   suit?: string;
   rank?: string | number;
+  /** Extra attrs injected into the root <svg> (e.g. width/height for retina). */
+  svg?: string;
   style?: CSSProperties;
 };
 
