@@ -1,4 +1,6 @@
 import type { Board, Direction } from "../game/engine";
+import type { OpponentStyle, RpsThrow } from "../rps/engine";
+import type { MsCellView } from "../minesweeper/engine";
 
 export interface Decide2048Request {
   board: Board;
@@ -32,7 +34,6 @@ export interface DecideBlackjackRequest {
   validActions: Array<"hit" | "stand">;
 }
 
-
 export interface DecideBlackjackResponse {
   action: "hit" | "stand";
   confidence: number;
@@ -43,6 +44,61 @@ export interface DecideBlackjackResponse {
     output_tokens?: number;
     cost?: number;
   } | null;
+}
+
+type Usage = Decide2048Response["usage"];
+
+export interface DecideLinesRequest {
+  game: "tictactoe" | "connect4";
+  board: unknown;
+  validMoves: string[];
+  youAre: "X" | "O";
+  opponent: "X" | "O";
+  moveCount: number;
+}
+
+export interface DecideLinesResponse {
+  move: string;
+  confidence: number;
+  probabilities: Record<string, number>;
+  model: string;
+  usage: Usage;
+}
+
+export interface DecideMinesweeperRequest {
+  board: MsCellView[][];
+  width: number;
+  height: number;
+  mines: number;
+  remainingMines: number;
+  validMoves: string[];
+}
+
+export interface DecideMinesweeperResponse {
+  move: string;
+  confidence: number;
+  probabilities: Record<string, number>;
+  model: string;
+  usage: Usage;
+}
+
+export interface DecideRpsRequest {
+  validMoves: RpsThrow[];
+  round: number;
+  yourScore: number;
+  opponentScore: number;
+  streak: number;
+  history: Array<{ you: string; opponent: string; result: string }>;
+  opponentStyleHint: string;
+  opponentFreq: Record<string, number>;
+}
+
+export interface DecideRpsResponse {
+  move: RpsThrow;
+  confidence: number;
+  probabilities: Record<string, number>;
+  model: string;
+  usage: Usage;
 }
 
 async function postDecide<T>(body: unknown): Promise<T> {
@@ -84,3 +140,23 @@ export function askJevBlackjack(
 ): Promise<DecideBlackjackResponse> {
   return postDecide({ game: "blackjack", ...payload });
 }
+
+export function askJevLines(
+  payload: DecideLinesRequest,
+): Promise<DecideLinesResponse> {
+  return postDecide(payload);
+}
+
+export function askJevMinesweeper(
+  payload: DecideMinesweeperRequest,
+): Promise<DecideMinesweeperResponse> {
+  return postDecide({ game: "minesweeper", ...payload });
+}
+
+export function askJevRps(
+  payload: DecideRpsRequest,
+): Promise<DecideRpsResponse> {
+  return postDecide({ game: "rps", ...payload });
+}
+
+export type { OpponentStyle, RpsThrow };

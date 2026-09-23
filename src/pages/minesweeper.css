@@ -1,0 +1,57 @@
+.atmosphere-ms {
+  background:
+    radial-gradient(ellipse 60% 45% at 15% 10%, rgba(148, 163, 184, 0.18), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 88% 0%, rgba(239, 68, 68, 0.14), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(30, 40, 50, 0.5), transparent 60%),
+    linear-gradient(165deg, #0a1016 0%, #121820 50%, #161e28 100%);
+}
+
+.ms-board {
+  display: grid;
+  gap: 0.28rem;
+  max-width: 420px;
+  margin: 0 auto 0.5rem;
+  padding: 0.7rem;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #2a3544, #1a222c);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+}
+
+.ms-cell {
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  background: linear-gradient(160deg, #3b4a5c, #2c3848);
+  color: var(--fog);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.ms-cell.open {
+  background: #1a222c;
+  border-color: transparent;
+  cursor: default;
+}
+
+.ms-cell.flagged {
+  color: #f87171;
+}
+
+.ms-cell.boom {
+  background: #7f1d1d;
+  color: #fecaca;
+}
+
+.ms-cell.n1 { color: #60a5fa; }
+.ms-cell.n2 { color: #4ade80; }
+.ms-cell.n3 { color: #f87171; }
+.ms-cell.n4 { color: #a78bfa; }
+.ms-cell.n5 { color: #fbbf24; }
+.ms-cell.n6 { color: #2dd4bf; }
+.ms-cell.n7 { color: #e5e7eb; }
+.ms-cell.n8 { color: #94a3b8; }

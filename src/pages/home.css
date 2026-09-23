@@ -51,7 +51,7 @@
 .hub-grid {
   margin-top: 2.5rem;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.1rem;
 }
 
@@ -96,6 +96,24 @@
 .hub-card-felt {
   background:
     linear-gradient(160deg, rgba(46, 160, 100, 0.16), transparent 45%),
+    rgba(10, 28, 24, 0.75);
+}
+
+.hub-card-sky {
+  background:
+    linear-gradient(160deg, rgba(56, 189, 248, 0.14), transparent 45%),
+    rgba(10, 28, 24, 0.75);
+}
+
+.hub-card-slate {
+  background:
+    linear-gradient(160deg, rgba(148, 163, 184, 0.16), transparent 45%),
+    rgba(10, 28, 24, 0.75);
+}
+
+.hub-card-rose {
+  background:
+    linear-gradient(160deg, rgba(244, 114, 182, 0.14), transparent 45%),
     rgba(10, 28, 24, 0.75);
 }
 

@@ -1,7 +1,10 @@
 import {
   ArrowRight,
+  Bomb,
   Bot,
   Grid3x3,
+  Hand,
+  Hash,
   Layers,
   Spade,
 } from "lucide-react";
@@ -26,6 +29,33 @@ const TOOLS = [
       "自动发牌或手动指定牌面，Jev 根据点数与庄家明牌判断是否继续要牌，并可自动打完一局。",
     accent: "felt",
     Icon: Spade,
+  },
+  {
+    to: "/lines",
+    title: "连棋决策",
+    tag: "choice · 井字 / 四子",
+    blurb:
+      "极小动作空间的可视化 demo：Jev 在合法落子里选赢棋、防守或占中心。",
+    accent: "sky",
+    Icon: Hash,
+  },
+  {
+    to: "/minesweeper",
+    title: "扫雷推理",
+    tag: "choice · 点开 / 插旗",
+    blurb:
+      "把数字约束盘面交给 Jev，看它如何推断安全格与地雷，适合讲概率推理。",
+    accent: "slate",
+    Icon: Bomb,
+  },
+  {
+    to: "/rps",
+    title: "猜拳策略",
+    tag: "choice · 石头剪刀布",
+    blurb:
+      "对手有模仿、循环、偏科等套路；Jev 根据历史频率猜下一手，连打看连胜。",
+    accent: "rose",
+    Icon: Hand,
   },
 ] as const;
 
