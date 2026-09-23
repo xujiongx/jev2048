@@ -333,7 +333,7 @@ export default function Lines() {
             </label>
           </div>
           <p className="hint">
-            手动时你执 X，对手用简易启发落子；自动模式由 Jev 执当前方，对手用同一启发回应。
+            手动时你执 X（蓝），对手会挡你的连四并争中路。横、竖、斜连成 4 个都算赢——这是四子棋规则，不是 bug。
           </p>
           {error ? <p className="error-banner">{error}</p> : null}
         </section>

@@ -163,8 +163,156 @@ export function applyMove(state: LinesState, move: string): LinesState {
     : applyC4Move(state, move);
 }
 
-/** Weak but legal opponent: win > block > random. */
+function c4ScoreWindow(cells: Cell[], me: "X" | "O"): number {
+  const foe: "X" | "O" = me === "X" ? "O" : "X";
+  const mine = cells.filter((c) => c === me).length;
+  const theirs = cells.filter((c) => c === foe).length;
+  const empty = cells.filter((c) => c == null).length;
+  if (mine > 0 && theirs > 0) return 0;
+  if (mine === 4) return 100_000;
+  if (theirs === 4) return -100_000;
+  if (mine === 3 && empty === 1) return 120;
+  if (mine === 2 && empty === 2) return 20;
+  if (mine === 1 && empty === 3) return 2;
+  if (theirs === 3 && empty === 1) return -140;
+  if (theirs === 2 && empty === 2) return -25;
+  return 0;
+}
+
+function evaluateC4(board: Cell[][], me: "X" | "O"): number {
+  let score = 0;
+  const rows = 6;
+  const cols = 7;
+  // Prefer center column control.
+  for (let r = 0; r < rows; r++) {
+    if (board[r][3] === me) score += 6;
+    else if (board[r][3] && board[r][3] !== me) score -= 6;
+  }
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (c + 3 < cols) {
+        score += c4ScoreWindow(
+          [board[r][c], board[r][c + 1], board[r][c + 2], board[r][c + 3]],
+          me,
+        );
+      }
+      if (r + 3 < rows) {
+        score += c4ScoreWindow(
+          [board[r][c], board[r + 1][c], board[r + 2][c], board[r + 3][c]],
+          me,
+        );
+      }
+      if (r + 3 < rows && c + 3 < cols) {
+        score += c4ScoreWindow(
+          [
+            board[r][c],
+            board[r + 1][c + 1],
+            board[r + 2][c + 2],
+            board[r + 3][c + 3],
+          ],
+          me,
+        );
+      }
+      if (r + 3 < rows && c - 3 >= 0) {
+        score += c4ScoreWindow(
+          [
+            board[r][c],
+            board[r + 1][c - 1],
+            board[r + 2][c - 2],
+            board[r + 3][c - 3],
+          ],
+          me,
+        );
+      }
+    }
+  }
+  return score;
+}
+
+function minimaxC4(
+  state: C4State,
+  depth: number,
+  alpha: number,
+  beta: number,
+  maximizing: boolean,
+  me: "X" | "O",
+): number {
+  if (state.status === "won") {
+    return state.winner === me ? 100_000 - (10 - depth) : -100_000 + (10 - depth);
+  }
+  if (state.status === "draw" || depth === 0) {
+    return evaluateC4(state.board, me);
+  }
+
+  const moves = c4ValidMoves(state.board);
+  // Center-first move ordering.
+  moves.sort((a, b) => Math.abs(Number(a) - 3) - Math.abs(Number(b) - 3));
+
+  if (maximizing) {
+    let best = -Infinity;
+    for (const m of moves) {
+      const next = applyC4Move(state, m);
+      const val = minimaxC4(next, depth - 1, alpha, beta, false, me);
+      best = Math.max(best, val);
+      alpha = Math.max(alpha, best);
+      if (beta <= alpha) break;
+    }
+    return best;
+  }
+
+  let best = Infinity;
+  for (const m of moves) {
+    const next = applyC4Move(state, m);
+    const val = minimaxC4(next, depth - 1, alpha, beta, true, me);
+    best = Math.min(best, val);
+    beta = Math.min(beta, best);
+    if (beta <= alpha) break;
+  }
+  return best;
+}
+
+function c4AiMove(state: C4State): string | null {
+  const moves = c4ValidMoves(state.board);
+  if (moves.length === 0) return null;
+
+  const me = state.current;
+
+  // Immediate win.
+  for (const m of moves) {
+    const next = applyC4Move(state, m);
+    if (next.status === "won" && next.winner === me) return m;
+  }
+
+  // Immediate block.
+  const foe: "X" | "O" = me === "X" ? "O" : "X";
+  for (const m of moves) {
+    const asFoe = applyC4Move({ ...state, current: foe }, m);
+    if (asFoe.status === "won" && asFoe.winner === foe) return m;
+  }
+
+  let bestMove = moves[0]!;
+  let bestScore = -Infinity;
+  const ordered = [...moves].sort(
+    (a, b) => Math.abs(Number(a) - 3) - Math.abs(Number(b) - 3),
+  );
+  for (const m of ordered) {
+    const next = applyC4Move(state, m);
+    const score = minimaxC4(next, 4, -Infinity, Infinity, false, me);
+    if (score > bestScore) {
+      bestScore = score;
+      bestMove = m;
+    }
+  }
+  return bestMove;
+}
+
+/** Opponent: tic-tac-toe heuristics; connect4 uses shallow minimax. */
 export function opponentMove(state: LinesState): string | null {
+  if (state.mode === "connect4") {
+    return c4AiMove(state);
+  }
+
   const moves = validMoves(state);
   if (moves.length === 0) return null;
 
@@ -175,21 +323,11 @@ export function opponentMove(state: LinesState): string | null {
 
   const foe: "X" | "O" = state.current === "X" ? "O" : "X";
   for (const m of moves) {
-    const asFoe =
-      state.mode === "tictactoe"
-        ? applyTttMove({ ...state, current: foe }, m)
-        : applyC4Move({ ...state, current: foe }, m);
+    const asFoe = applyTttMove({ ...state, current: foe }, m);
     if (asFoe.status === "won" && asFoe.winner === foe) return m;
   }
 
-  if (state.mode === "tictactoe" && moves.includes("4")) return "4";
-  if (state.mode === "connect4") {
-    const center = ["3", "2", "4", "1", "5", "0", "6"].find((c) =>
-      moves.includes(c),
-    );
-    if (center) return center;
-  }
-
+  if (moves.includes("4")) return "4";
   return moves[Math.floor(Math.random() * moves.length)]!;
 }
 
