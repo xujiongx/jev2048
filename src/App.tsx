@@ -8,6 +8,7 @@ const Blackjack = lazy(() => import("./pages/Blackjack"));
 const Lines = lazy(() => import("./pages/Lines"));
 const Minesweeper = lazy(() => import("./pages/Minesweeper"));
 const Rps = lazy(() => import("./pages/Rps"));
+const Snake = lazy(() => import("./pages/Snake"));
 
 function PageFallback() {
   return <div className="page-fallback">加载中…</div>;
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/lines" element={<Lines />} />
           <Route path="/minesweeper" element={<Minesweeper />} />
           <Route path="/rps" element={<Rps />} />
+          <Route path="/snake" element={<Snake />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>

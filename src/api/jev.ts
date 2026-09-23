@@ -159,4 +159,30 @@ export function askJevRps(
   return postDecide({ game: "rps", ...payload });
 }
 
+export interface DecideSnakeRequest {
+  board: string[][];
+  width: number;
+  height: number;
+  snake: Array<{ r: number; c: number }>;
+  food: { r: number; c: number };
+  dir: "up" | "down" | "left" | "right";
+  score: number;
+  steps: number;
+  validMoves: Array<"up" | "down" | "left" | "right">;
+}
+
+export interface DecideSnakeResponse {
+  move: "up" | "down" | "left" | "right";
+  confidence: number;
+  probabilities: Record<string, number>;
+  model: string;
+  usage: Usage;
+}
+
+export function askJevSnake(
+  payload: DecideSnakeRequest,
+): Promise<DecideSnakeResponse> {
+  return postDecide({ game: "snake", ...payload });
+}
+
 export type { OpponentStyle, RpsThrow };

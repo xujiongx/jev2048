@@ -7,6 +7,7 @@ import {
   Hash,
   Layers,
   Spade,
+  Worm,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./home.css";
@@ -20,6 +21,15 @@ const TOOLS = [
       "把棋盘交给 Jev，每一步选出最优滑动方向，自动冲到 2048。也支持手势与键盘手动玩。",
     accent: "ember",
     Icon: Grid3x3,
+  },
+  {
+    to: "/snake",
+    title: "贪吃蛇",
+    tag: "choice · 四向移动",
+    blurb:
+      "蛇身与食物交给 Jev 选转向，自动游走轨迹清楚，很适合演示决策过程。",
+    accent: "moss",
+    Icon: Worm,
   },
   {
     to: "/blackjack",

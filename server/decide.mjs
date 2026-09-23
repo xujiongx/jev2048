@@ -293,6 +293,56 @@ async function decideRps(body, apiKey, siteUrl) {
   }));
 }
 
+const SNAKE_CRITERIA = {
+  up: "Move the head one cell upward.",
+  down: "Move the head one cell downward.",
+  left: "Move the head one cell leftward.",
+  right: "Move the head one cell rightward.",
+};
+
+async function decideSnake(body, apiKey, siteUrl) {
+  const validMoves = (body?.validMoves ?? []).filter((m) => m in SNAKE_CRITERIA);
+  if (!body?.board || validMoves.length === 0) {
+    return { status: 400, data: { error: "需要提供 board 与 validMoves" } };
+  }
+
+  const criteria = Object.fromEntries(
+    validMoves.map((move) => [move, SNAKE_CRITERIA[move]]),
+  );
+
+  const result = await callJev(apiKey, siteUrl, {
+    model: "~typesafe/jev-latest",
+    state: {
+      game: "snake",
+      width: body.width ?? 12,
+      height: body.height ?? 12,
+      board: body.board,
+      snake: body.snake ?? [],
+      food: body.food ?? null,
+      current_direction: body.dir ?? null,
+      score: body.score ?? 0,
+      steps: body.steps ?? 0,
+      valid_moves: validMoves,
+      legend: "H=head, S=body, F=food, .=empty. Hitting wall or body dies.",
+      strategy:
+        "Survive first: never choose a move that collides. Prefer paths that reach food without trapping the snake in a dead end. Keep space to turn; avoid boxing yourself into a corner.",
+    },
+    questions: {
+      next_move: {
+        type: "choice",
+        instructions:
+          "Pick the single best next direction among valid_moves only. Optimize for survival then food.",
+        criteria,
+      },
+    },
+  });
+
+  return wrapChoice(result, "next_move", validMoves, (choice) => ({
+    game: "snake",
+    move: choice,
+  }));
+}
+
 /**
  * @param {object} body
  * @param {string} apiKey
@@ -328,6 +378,8 @@ export async function decideMove(
       return decideMinesweeper(body, apiKey, siteUrl);
     case "rps":
       return decideRps(body, apiKey, siteUrl);
+    case "snake":
+      return decideSnake(body, apiKey, siteUrl);
     case "2048":
     default:
       return decide2048(body, apiKey, siteUrl);

@@ -117,6 +117,12 @@
     rgba(10, 28, 24, 0.75);
 }
 
+.hub-card-moss {
+  background:
+    linear-gradient(160deg, rgba(74, 222, 128, 0.14), transparent 45%),
+    rgba(10, 28, 24, 0.75);
+}
+
 .hub-tag {
   font-family: var(--mono);
   font-size: 0.72rem;
