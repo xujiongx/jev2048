@@ -1,5 +1,5 @@
 {
-  "name": "jev-2048",
+  "name": "jev-dev-tools",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -12,8 +12,10 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "lucide-react": "^1.47.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.18.4"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

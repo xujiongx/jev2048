@@ -1,3 +1,11 @@
+import {
+  Pause,
+  Play,
+  RotateCcw,
+  SkipForward,
+  Sparkles,
+} from "lucide-react";
+
 type Props = {
   autoplay: boolean;
   busy: boolean;
@@ -36,7 +44,17 @@ export function Controls({
           onClick={onToggleAutoplay}
           disabled={!autoplay && (!canStep || busy)}
         >
-          {autoplay ? "停止" : "用 Jev 自动玩"}
+          {autoplay ? (
+            <>
+              <Pause size={16} strokeWidth={2.25} aria-hidden />
+              停止
+            </>
+          ) : (
+            <>
+              <Play size={16} strokeWidth={2.25} aria-hidden />
+              用 Jev 自动玩
+            </>
+          )}
         </button>
         <button
           type="button"
@@ -44,13 +62,16 @@ export function Controls({
           onClick={onStep}
           disabled={autoplay || busy || !canStep}
         >
+          <SkipForward size={16} strokeWidth={2.25} aria-hidden />
           {busy ? "思考中…" : "单步"}
         </button>
         <button type="button" className="btn ghost" onClick={onReset}>
+          <RotateCcw size={16} strokeWidth={2.25} aria-hidden />
           新游戏
         </button>
         {showContinue && (
           <button type="button" className="btn ghost" onClick={onContinue}>
+            <Sparkles size={16} strokeWidth={2.25} aria-hidden />
             继续冲分
           </button>
         )}

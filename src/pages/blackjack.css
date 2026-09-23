@@ -1,0 +1,367 @@
+.atmosphere-bj {
+  background:
+    radial-gradient(ellipse 55% 40% at 15% 0%, rgba(34, 120, 80, 0.35), transparent 55%),
+    radial-gradient(ellipse 45% 35% at 90% 15%, rgba(180, 40, 40, 0.18), transparent 50%),
+    linear-gradient(165deg, #061510 0%, #0a1f18 45%, #123024 100%);
+}
+
+.brand-bj {
+  background: linear-gradient(120deg, #fff 15%, #b8e0c8 50%, #e8c547 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.bj-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.bj-mode {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.bj-players-control {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.bj-players-control select {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 600;
+}
+
+.deck-panel {
+  margin-bottom: 1.15rem;
+}
+
+.deck-head h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.deck-head p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.deck-head strong {
+  color: var(--fog);
+  font-variant-numeric: tabular-nums;
+}
+
+.deck-grid {
+  margin-top: 0.85rem;
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 0.28rem;
+}
+
+.deck-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.12rem;
+  min-height: 1.65rem;
+  padding: 0 0.15rem;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+.deck-chip.red {
+  color: #ff9a9a;
+}
+
+.deck-chip.used {
+  opacity: 0.28;
+  text-decoration: line-through;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.deck-chip.left {
+  box-shadow: inset 0 0 0 1px rgba(240, 162, 2, 0.15);
+}
+
+.bj-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.bj-table {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.bj-players {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.bj-seat {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.player-seat {
+  padding: 0.75rem;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.player-seat.active {
+  border-color: rgba(240, 162, 2, 0.45);
+  background: rgba(240, 162, 2, 0.08);
+}
+
+.seat-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.seat-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.seat-meta strong {
+  color: var(--text);
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.outcome {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+}
+
+.outcome-win,
+.outcome-blackjack {
+  background: rgba(80, 200, 120, 0.18);
+  color: #8dffb0;
+}
+
+.outcome-lose {
+  background: rgba(255, 100, 100, 0.16);
+  color: #ffb0b0;
+}
+
+.outcome-push {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--mist);
+}
+
+.hand-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  min-height: 4.5rem;
+  align-items: flex-end;
+}
+
+.playing-card {
+  width: 5.4rem;
+  aspect-ratio: 5 / 7;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f4f0e6;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  flex-shrink: 0;
+}
+
+.playing-card.small {
+  width: 3.6rem;
+}
+
+.playing-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #fff;
+}
+
+.card-fallback {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #122;
+  background: linear-gradient(160deg, #fff, #ece6d8);
+}
+
+.card-fallback.red {
+  color: #b22222;
+}
+
+.bj-message {
+  margin: 0;
+  text-align: center;
+  font-weight: 600;
+  color: var(--fog);
+  padding: 0.35rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.bj-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.bj-manual {
+  margin-bottom: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.bj-manual-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.bj-draft-hands {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.bj-draft-hands.multi {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.bj-draft-hands h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.card-picker {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.picker-suit {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.picker-suit-label {
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.picker-ranks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.picker-chip {
+  appearance: none;
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.picker-chip.red {
+  color: #ff8a8a;
+}
+
+.picker-chip:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.picker-chip:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.bj-hit-picker {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.bj-hit-picker h3 {
+  margin: 0 0 0.65rem;
+  font-size: 0.95rem;
+}
+
+.bj-credit {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.bj-credit a {
+  color: var(--mist);
+}
+
+@media (max-width: 900px) {
+  .bj-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .bj-draft-hands {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-grid {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .deck-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .playing-card {
+    width: 4.4rem;
+  }
+}

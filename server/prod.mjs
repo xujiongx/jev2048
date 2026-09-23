@@ -36,5 +36,5 @@ app.get("*", (_req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Jev 2048 running at http://localhost:${port}`);
+  console.log(`Jev Dev Tools running at http://localhost:${port}`);
 });

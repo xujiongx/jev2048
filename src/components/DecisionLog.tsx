@@ -1,17 +1,15 @@
+import { ListTree } from "lucide-react";
 import type { DecisionEntry } from "../types";
-
-const MOVE_LABEL: Record<string, string> = {
-  up: "上",
-  down: "下",
-  left: "左",
-  right: "右",
-};
+import { MoveIcon } from "./MoveIcon";
 
 export function DecisionLog({ entries }: { entries: DecisionEntry[] }) {
   return (
     <aside className="log-panel">
       <div className="log-head">
-        <h2>Jev 决策记录</h2>
+        <h2>
+          <ListTree size={18} strokeWidth={2.25} aria-hidden />
+          Jev 决策记录
+        </h2>
         <p>每一行是一次 Decisions API 的选择，附带校准后的概率分布。</p>
       </div>
       {entries.length === 0 ? (
@@ -22,7 +20,7 @@ export function DecisionLog({ entries }: { entries: DecisionEntry[] }) {
             <li key={entry.id} className="log-item">
               <div className="log-row">
                 <span className={`move-pill move-${entry.move}`}>
-                  {MOVE_LABEL[entry.move] ?? entry.move}
+                  <MoveIcon move={entry.move} />
                 </span>
                 <span className="conf">
                   {(entry.confidence * 100).toFixed(0)}%
@@ -36,7 +34,9 @@ export function DecisionLog({ entries }: { entries: DecisionEntry[] }) {
                   .sort((a, b) => b[1] - a[1])
                   .map(([label, p]) => (
                     <div key={label} className="prob">
-                      <span>{MOVE_LABEL[label] ?? label}</span>
+                      <span className="prob-label">
+                        <MoveIcon move={label} size={12} />
+                      </span>
                       <div className="bar">
                         <i style={{ width: `${Math.max(2, p * 100)}%` }} />
                       </div>
